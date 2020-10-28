@@ -7,7 +7,6 @@ namespace Baraja\ContentStorm;
 
 interface Module
 {
-
 	/**
 	 * @param mixed[] $parameters
 	 * @return string

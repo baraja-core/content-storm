@@ -7,12 +7,9 @@ namespace Baraja\ContentStorm;
 
 final class ParserException extends \LogicException
 {
+	private string $content;
 
-	/** @var string */
-	private $content;
-
-	/** @var int */
-	private $contentLine;
+	private int $contentLine;
 
 
 	public function __construct(string $message, string $content, int $contentLine)

@@ -16,7 +16,6 @@ final class BlueScreen
 
 
 	/**
-	 * @param \Throwable|null $e
 	 * @return string[]|null
 	 */
 	public static function render(?\Throwable $e): ?array

@@ -7,21 +7,16 @@ namespace Baraja\ContentStorm;
 
 final class Renderer
 {
+	private ?Module $fallbackModule;
+
+	private ?Module $outsideBlockModule;
+
+	private bool $allowOutsideBlockContent;
+
+	private string $commentPrefix;
 
 	/** @var Module[] */
-	private $modules = [];
-
-	/** @var Module|null */
-	private $fallbackModule;
-
-	/** @var Module|null */
-	private $outsideBlockModule;
-
-	/** @var bool */
-	private $allowOutsideBlockContent;
-
-	/** @var string */
-	private $commentPrefix;
+	private array $modules = [];
 
 
 	public function __construct(bool $allowOutsideBlockContent = true, string $commentPrefix = 'brj')
