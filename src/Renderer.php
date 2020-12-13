@@ -7,9 +7,9 @@ namespace Baraja\ContentStorm;
 
 final class Renderer
 {
-	private ?Module $fallbackModule;
+	private ?Module $fallbackModule = null;
 
-	private ?Module $outsideBlockModule;
+	private ?Module $outsideBlockModule = null;
 
 	private bool $allowOutsideBlockContent;
 
