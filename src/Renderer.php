@@ -59,7 +59,9 @@ final class Renderer
 					if ($lineParser['name'] !== $contextBlockName) {
 						throw new ParserException(
 							'Parse error: Ending block name "' . $lineParser['name'] . '" and context block name "' . $contextBlockName . '" does not match on line ' . $line
-							. "\n" . 'Did you nest multiple blocks?', $haystack, $line
+							. "\n" . 'Did you nest multiple blocks?',
+							$haystack,
+							$line,
 						);
 					}
 
@@ -94,7 +96,9 @@ final class Renderer
 					}
 					throw new ParserException(
 						'Parse error: Line ' . $line . ' have not block context annotation.'
-						. ($lineContent ? "\n" . 'Line content: ' . $lineContent : ''), $haystack, $line
+						. ($lineContent ? "\n" . 'Line content: ' . $lineContent : ''),
+						$haystack,
+						$line,
 					);
 				}
 				$buffer .= $lineContent . "\n";
