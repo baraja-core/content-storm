@@ -11,25 +11,20 @@ final class Renderer
 
 	private ?Module $outsideBlockModule = null;
 
-	private bool $allowOutsideBlockContent;
-
-	private string $commentPrefix;
-
 	/** @var Module[] */
 	private array $modules = [];
 
 
-	public function __construct(bool $allowOutsideBlockContent = true, string $commentPrefix = 'brj')
-	{
+	public function __construct(
+		private bool $allowOutsideBlockContent = true,
+		private string $commentPrefix = 'brj'
+	) {
 		if (\class_exists('\Tracy\Debugger') === true) {
 			\Tracy\Debugger::getBlueScreen()->addPanel([BlueScreen::class, 'render']);
 		}
 		if ($commentPrefix === '' || !preg_match('/^[a-z]{1,16}$/', $commentPrefix)) {
 			throw new \LogicException('Comment prefix is not valid, because "' . $commentPrefix . '" given.');
 		}
-
-		$this->allowOutsideBlockContent = $allowOutsideBlockContent;
-		$this->commentPrefix = $commentPrefix;
 	}
 
 
