@@ -5,14 +5,20 @@ Content with module system
 
 A simple PHP library for rendering content with components.
 
-📦 Installation & Basic Usage
------------------------------
+📦 Installation
+---------------
 
-To manually install the package call Composer and execute the following command:
+It's best to use [Composer](https://getcomposer.org) for installation, and you can also find the package on
+[Packagist](https://packagist.org/packages/baraja-core/content-storm) and
+[GitHub](https://github.com/baraja-core/content-storm).
 
-```shell
+To install, simply use the command:
+
+```
 $ composer require baraja-core/content-storm
 ```
+
+You can use the package manually by creating an instance of the internal classes, or register a DIC extension to link the services directly to the Nette Framework.
 
 🗺️ Idea
 -------
