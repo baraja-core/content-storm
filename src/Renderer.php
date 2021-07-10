@@ -91,7 +91,7 @@ final class Renderer
 					}
 					throw new ParserException(
 						'Parse error: Line ' . $line . ' have not block context annotation.'
-						. ($lineContent ? "\n" . 'Line content: ' . $lineContent : ''),
+						. "\n" . 'Line content: ' . $lineContent,
 						$haystack,
 						$line,
 					);
