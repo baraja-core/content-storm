@@ -10,7 +10,7 @@ final class ParserException extends \LogicException
 	public function __construct(
 		string $message,
 		private string $content,
-		private int $contentLine
+		private int $contentLine,
 	) {
 		parent::__construct($message);
 	}

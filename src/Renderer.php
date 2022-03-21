@@ -17,7 +17,7 @@ final class Renderer
 
 	public function __construct(
 		private bool $allowOutsideBlockContent = true,
-		private string $commentPrefix = 'brj'
+		private string $commentPrefix = 'brj',
 	) {
 		if (\class_exists('\Tracy\Debugger') === true) {
 			\Tracy\Debugger::getBlueScreen()->addPanel([BlueScreen::class, 'render']);
