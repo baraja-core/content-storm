@@ -13,6 +13,7 @@
 		"ext-json": "*"
 	},
 	"require-dev": {
+		"tracy/tracy": "^2.8",
 		"phpstan/phpstan": "^1.0",
 		"phpstan/extension-installer": "^1.1",
 		"phpstan/phpstan-nette": "^1.0",

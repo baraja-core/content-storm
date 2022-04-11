@@ -22,7 +22,7 @@ final class Renderer
 		if (\class_exists('\Tracy\Debugger') === true) {
 			\Tracy\Debugger::getBlueScreen()->addPanel([BlueScreen::class, 'render']);
 		}
-		if ($commentPrefix === '' || !preg_match('/^[a-z]{1,16}$/', $commentPrefix)) {
+		if ($commentPrefix === '' || preg_match('/^[a-z]{1,16}$/', $commentPrefix) !== 1) {
 			throw new \LogicException('Comment prefix is not valid, because "' . $commentPrefix . '" given.');
 		}
 	}
@@ -40,11 +40,11 @@ final class Renderer
 
 		foreach (explode("\n", str_replace(["\r\n", "\r"], "\n", $haystack)) as $lineIndex => $lineContent) {
 			$line = $lineIndex + 1;
-			if (preg_match('/<!--\s(?<end>\/)?(?<prefix>[a-z]+):(?<name>\S+)\s(?<params>\{.+?\})?\s*-->/', $lineContent, $lineParser)) {
+			if (preg_match('/<!--\s(?<end>\/)?(?<prefix>[a-z]+):(?<name>\S+)\s(?<params>\{.+?\})?\s*-->/', $lineContent, $lineParser) === 1) {
 				if ($lineParser['prefix'] !== $this->commentPrefix) {
 					throw new ParserException('Parse error: Block prefix "' . $lineParser['prefix'] . '" is not allowed. Did you mean "' . $this->commentPrefix . '"?', $haystack, $line);
 				}
-				if (!preg_match('/^[a-z0-9\-]+$/', $lineParser['name'])) {
+				if (preg_match('/^[a-z0-9\-]+$/', $lineParser['name']) !== 1) {
 					throw new ParserException('Parse error: Block name "' . $lineParser['name'] . '" is invalid. Please use [a-z], [0-9] and "-".', $haystack, $line);
 				}
 				if (($lineParser['end'] ?? '') !== '') { // end current context in block and write rendered content
@@ -82,7 +82,10 @@ final class Renderer
 					}
 					$buffer = '';
 					$contextBlockName = $lineParser['name'];
-					$contextBlockParameters = ($params = $lineParser['params'] ?? '') ? json_decode($params, true) : [];
+					$params = $lineParser['params'] ?? '';
+					$contextBlockParameters = $params !== ''
+						? json_decode($params, true, 512, JSON_THROW_ON_ERROR)
+						: [];
 				}
 			} else {
 				if ($this->allowOutsideBlockContent === false && $contextBlockName === '') {
@@ -108,7 +111,7 @@ final class Renderer
 	{
 		try {
 			$this->render($haystack);
-		} catch (\Throwable $e) {
+		} catch (\Throwable) {
 			return false;
 		}
 
@@ -119,21 +122,19 @@ final class Renderer
 	public function getModuleByName(string $name): Module
 	{
 		if (isset($this->modules[$name]) === false) {
-			throw new \InvalidArgumentException('Module "' . $name . '" does not exist.');
+			throw new \InvalidArgumentException(sprintf('Module "%s" does not exist.', $name));
 		}
 
 		return $this->modules[$name];
 	}
 
 
-	public function addModule(string $name, Module $module): self
+	public function addModule(string $name, Module $module): void
 	{
-		if (isset($this->modules[$name]) === true) {
-			throw new \RuntimeException('Module "' . $name . '" already exist (service "' . \get_class($this->modules[$name]) . '").');
+		if (isset($this->modules[$name])) {
+			throw new \RuntimeException(sprintf('Module "%s" already exist (service "%s").', $name, get_class($this->modules[$name])));
 		}
 		$this->modules[$name] = $module;
-
-		return $this;
 	}
 
 
@@ -143,18 +144,14 @@ final class Renderer
 	}
 
 
-	public function setFallbackModule(Module $module): self
+	public function setFallbackModule(Module $module): void
 	{
 		$this->fallbackModule = $module;
-
-		return $this;
 	}
 
 
-	public function setOutsideBlockModule(Module $module): self
+	public function setOutsideBlockModule(Module $module): void
 	{
 		$this->outsideBlockModule = $module;
-
-		return $this;
 	}
 }

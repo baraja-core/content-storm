@@ -9,7 +9,6 @@ interface Module
 {
 	/**
 	 * @param mixed[] $parameters
-	 * @return string
 	 */
 	public function render(string $haystack, array $parameters = []): string;
 }
